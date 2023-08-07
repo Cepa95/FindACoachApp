@@ -47,7 +47,7 @@ export default {
   methods: {
     submitForm() {
       this.formIsValid = true;
-      if (this.email.val === "" || !this.email.includes("@")) {
+      if (this.email.val === "" || !this.email.val.includes("@")) {
         this.formIsValid = false;
         this.email.isValid = false;
       }
@@ -55,6 +55,12 @@ export default {
         this.formIsValid = false;
         this.message.isValid = false;
       }
+      this.$store.dispatch("requests/contactCoach", {
+        email: this.email.val,
+        message: this.message.val,
+        coachId: this.$route.params.id,
+      });
+      this.$router.replace("/coaches");
     },
     clearValidity(input) {
       this[input].isValid = true;
