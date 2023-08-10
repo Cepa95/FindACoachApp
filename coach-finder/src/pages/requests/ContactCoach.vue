@@ -1,32 +1,34 @@
 <template>
-  <form @submit.prevent="submitForm">
-    <div :class="{ invalid: !email.isValid }">
-      <label for="email">Your E-mail </label>
-      <input
-        type="email"
-        id="email"
-        v-model.trim="email.val"
-        @blur="clearValidity('email')"
-      />
-    </div>
-    <p v-if="!email.isValid">Please enter a valid email</p>
-    <div :class="{ invalid: !message.isValid }">
-      <label for="message">Message</label>
-      <textarea
-        rows="5"
-        id="message"
-        v-model.trim="message.val"
-        @blur="clearValidity('message')"
-      ></textarea>
-    </div>
-    <p v-if="!message.isValid">Message must not be empty.</p>
-    <p class="errors" v-if="!formIsValid">
-      Please fix the errors and submit again!
-    </p>
-    <div class="actions">
-      <base-button>Send message</base-button>
-    </div>
-  </form>
+  <div>
+    <form @submit.prevent="submitForm">
+      <div :class="{ invalid: !email.isValid }">
+        <label for="email">Your E-mail </label>
+        <input
+          type="email"
+          id="email"
+          v-model.trim="email.val"
+          @blur="clearValidity('email')"
+        />
+      </div>
+      <p v-if="!email.isValid">Please enter a valid email</p>
+      <div :class="{ invalid: !message.isValid }">
+        <label for="message">Message</label>
+        <textarea
+          rows="5"
+          id="message"
+          v-model.trim="message.val"
+          @blur="clearValidity('message')"
+        ></textarea>
+      </div>
+      <p v-if="!message.isValid">Message must not be empty.</p>
+      <p class="errors" v-if="!formIsValid">
+        Please fix the errors and submit again!
+      </p>
+      <div class="actions">
+        <base-button>Send message</base-button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>
