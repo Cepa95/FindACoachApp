@@ -1,33 +1,41 @@
 <template>
-  <base-card>
-    <form @submit.prevent="submitForm">
-      <div class="form-control" :class="{ invalid: !emailIsValid }">
-        <label for="email">E-mail</label>
-        <input
-          type="email"
-          id="email"
-          v-model.trim="email"
-          @blur="clearValidity('email')"
-        />
-      </div>
-      <p v-if="!emailIsValid">E-mail is not valid!</p>
-      <div class="form-control" :class="{ invalid: !passwordIsValid }">
-        <label for="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          v-model.trim="password"
-          @blur="clearValidity('password')"
-        />
-      </div>
-      <p v-if="!passwordIsValid">Password must be at least 6 characters</p>
-      <p v-if="!formIsValid">Please fix the errors</p>
-      <base-button>{{ submitButtonCaption }}</base-button>
-      <base-button type="button" mode="flat" @click="switchAuthMode">
-        {{ switchModeButtonCaption }}</base-button
-      >
-    </form>
-  </base-card>
+  <div>
+    <base-dialog :show="!!error" title="Error occurred" @close="handleError">
+      {{ error }}</base-dialog
+    >
+    <base-dialog :show="isLoading" title="Authenticating..." fixed>
+      <base-spinner></base-spinner>
+    </base-dialog>
+    <base-card>
+      <form @submit.prevent="submitForm">
+        <div class="form-control" :class="{ invalid: !emailIsValid }">
+          <label for="email">E-mail</label>
+          <input
+            type="email"
+            id="email"
+            v-model.trim="email"
+            @blur="clearValidity('email')"
+          />
+        </div>
+        <p v-if="!emailIsValid">E-mail is not valid!</p>
+        <div class="form-control" :class="{ invalid: !passwordIsValid }">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            v-model.trim="password"
+            @blur="clearValidity('password')"
+          />
+        </div>
+        <p v-if="!passwordIsValid">Password must be at least 6 characters</p>
+        <p v-if="!formIsValid">Please fix the errors</p>
+        <base-button>{{ submitButtonCaption }}</base-button>
+        <base-button type="button" mode="flat" @click="switchAuthMode">
+          {{ switchModeButtonCaption }}</base-button
+        >
+      </form>
+    </base-card>
+  </div>
 </template>
 
 <script>
@@ -40,6 +48,8 @@ export default {
       emailIsValid: true,
       passwordIsValid: true,
       mode: "login",
+      isLoading: false,
+      error: null,
     };
   },
   computed: {
@@ -59,7 +69,7 @@ export default {
     },
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       console.log("provjera");
       console.log(this.password);
       console.log(this.email);
@@ -80,15 +90,24 @@ export default {
         this.passwordIsValid = false;
         this.formIsValid = false;
       }
-      if (this.mode === 'login'){
-        //..
+      if (!this.passwordIsValid) {
+        return;
       }
-      if (this.mode !== 'login' && this.formIsValid) {
-        this.$store.dispatch('signup',{
-          email: this.email,
-          password: this.password,
-        })
+      this.isLoading = true;
+      try {
+        if (this.mode === "login") {
+          //..
+        }
+        if (this.mode !== "login" && this.formIsValid) {
+          await this.$store.dispatch("signup", {
+            email: this.email,
+            password: this.password,
+          });
+        }
+      } catch (error) {
+        this.error = error.message || "Failed to authenticate";
       }
+      this.isLoading = false;
     },
     switchAuthMode() {
       if (this.mode === "login") {
@@ -104,6 +123,9 @@ export default {
         this.passwordIsValid = true;
       }
     },
+    handleError(){
+      this.error = null;
+    }
   },
 };
 </script>
