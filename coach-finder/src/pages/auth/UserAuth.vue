@@ -80,6 +80,15 @@ export default {
         this.passwordIsValid = false;
         this.formIsValid = false;
       }
+      if (this.mode === 'login'){
+        //..
+      }
+      if (this.mode !== 'login' && this.formIsValid) {
+        this.$store.dispatch('signup',{
+          email: this.email,
+          password: this.password,
+        })
+      }
     },
     switchAuthMode() {
       if (this.mode === "login") {
