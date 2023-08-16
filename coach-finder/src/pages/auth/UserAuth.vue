@@ -96,10 +96,10 @@ export default {
       this.isLoading = true;
       try {
         if (this.mode === "login") {
-          await this.$store.dispatch('login',{
+          await this.$store.dispatch("login", {
             email: this.email,
             password: this.password,
-          })
+          });
         }
         if (this.mode !== "login" && this.formIsValid) {
           await this.$store.dispatch("signup", {
@@ -107,6 +107,8 @@ export default {
             password: this.password,
           });
         }
+        const redirectUrl = "/" + (this.$route.query.redirect || "coaches");
+        this.$router.replace(redirectUrl);
       } catch (error) {
         this.error = error.message || "Failed to authenticate";
       }
@@ -126,9 +128,9 @@ export default {
         this.passwordIsValid = true;
       }
     },
-    handleError(){
+    handleError() {
       this.error = null;
-    }
+    },
   },
 };
 </script>

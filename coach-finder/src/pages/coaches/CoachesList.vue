@@ -7,6 +7,9 @@
     >
       <p>{{ error }}</p>
     </base-dialog>
+    <div>
+      <waving-hand v-if="userEmail"> <span>Hello {{ userEmail }}</span></waving-hand>
+    </div>
     <section>
       <coach-filter @change-filter="setFilters"></coach-filter>
     </section>
@@ -16,7 +19,9 @@
           <base-button mode="outline" @click="loadCoaches(true)"
             >Refresh</base-button
           >
-          <base-button v-if="!isLoggedIn" link to="/auth">Login</base-button>
+          <base-button v-if="!isLoggedIn" link to="/auth?redirect=register"
+            >Login to register as coach</base-button
+          >
           <base-button
             v-if="!isCoach && !isLoading && isLoggedIn"
             link
@@ -89,6 +94,9 @@ export default {
     hasCoaches() {
       return !this.isLoading && this.$store.getters["coaches/hasCoaches"];
     },
+    userEmail() {
+      return this.$store.getters.userEmail;
+    },
   },
   created() {
     this.loadCoaches();
@@ -126,5 +134,8 @@ ul {
 .controls {
   display: flex;
   justify-content: space-between;
+}
+span {
+  color: #3d008d;
 }
 </style>

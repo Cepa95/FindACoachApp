@@ -26,6 +26,7 @@ export default {
       token: responseData.idToken,
       userId: responseData.localId,
       tokenExpiration: responseData.expiresIn,
+      userEmail: responseData.email
     });
   },
 
@@ -56,6 +57,7 @@ export default {
       token: responseData.idToken,
       userId: responseData.localId,
       tokenExpiration: responseData.expiresIn,
+      userEmail: responseData.userEmail,
     });
   },
   logout(context) {
@@ -63,6 +65,7 @@ export default {
       token: null,
       userId: null,
       tokenExpiration: null,
+      userEmail: null,
     });
   },
 };
