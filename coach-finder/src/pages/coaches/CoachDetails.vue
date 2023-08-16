@@ -10,7 +10,6 @@
       <base-card>
         <header>
           <h2>Interested? Reach out now!</h2>
-          <base-button link :to="contactLink"> Contact</base-button>
         </header>
         <router-view></router-view
       ></base-card>
@@ -40,9 +39,6 @@ export default {
   computed: {
     fullName() {
       return this.selectedCoach.firstName + " " + this.selectedCoach.lastName;
-    },
-    contactLink() {
-      return this.$route.path + "/" + this.id + "/contact";
     },
     areas() {
       return this.selectedCoach.areas;

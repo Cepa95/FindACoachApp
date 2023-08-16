@@ -8,7 +8,11 @@
       <p>{{ error }}</p>
     </base-dialog>
     <div>
-      <waving-hand v-if="userEmail"> <span>Hello {{ userEmail }}</span></waving-hand>
+      <base-card v-if="userEmail"
+        ><waving-hand>
+          <span>Hello {{ userEmail }}</span></waving-hand
+        >
+      </base-card>
     </div>
     <section>
       <coach-filter @change-filter="setFilters"></coach-filter>
