@@ -62,7 +62,9 @@ export default {
         message: this.message.val,
         coachId: this.$route.params.id,
       });
+      if (this.formIsValid === true){
       this.$router.replace("/coaches");
+      }
     },
     clearValidity(input) {
       this[input].isValid = true;
